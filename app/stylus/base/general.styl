@@ -1,0 +1,106 @@
+body
+	background #daeff7
+	font-family sans-serif
+	color $grey
+	
+	.text-blue
+		color $blue
+	
+	.panel 
+		width 800px
+		height 500px
+		background #fefefe
+		position absolute
+		left 50%
+		top 50%
+		transform translate(-50%,-50%)
+		box-shadow 0 0 200px $blue
+		
+		.left-part
+			position absolute
+			width 60%
+			height 100%
+			border-right 1px solid $blue
+			
+			.header-calendar
+				position absolute
+				text-align center
+				width 100%
+				height 20%
+				
+				*
+					position absolute
+					width 33.3%
+					top 50%
+					
+				.next
+					right 0px
+				
+				h2
+					left 33.4%
+				
+				.previous
+					left 0
+					
+
+  
+			.calendar
+				position absolute
+				left 5%
+				top 20%
+				height 70% 
+				width 90%
+				padding 0
+				
+					 
+				table 
+					width 100% 
+					
+					th 	
+						width 14.2%
+						font-weight bold 
+						text-align center
+					
+				.calendar-area
+					text-align center
+					
+					table 900px
+					
+					td
+						width 14.2%
+						
+					tr
+						height (300/6)px
+						line-height (300/6)px
+						
+					.active
+						background $blue
+						color #fefefe
+						box-shadow 0 0 15px $blue
+							  	
+				.non-active
+					color #cecece
+
+				.bouttton 
+					background red 
+					height 20px
+					width 150px
+					
+		.right-part
+			position absolute
+			width 40%
+			height 100%
+			right 0px
+			
+			.weather
+				position absolute
+				width 100%
+				height 35%
+				background $blue
+				
+			.note
+				position absolute
+				width 100%
+				height 65%
+				bottom 0px
+  
