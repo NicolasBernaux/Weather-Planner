@@ -35,8 +35,52 @@
         </div>
         <div class="right-part">
             <div class="weather"></div>
-            <div class="note"></div>
+            <div class="note">
+            <h2>What to do today ?</h2>
+                <div>
+                    <p class="time">07:00</p>
+                    <p>Go to school</p>
+                </div>
+                <div>
+                    <p class="time">12:00</p>
+                    <p>Lunch Time</p>
+                </div>
+                <div>
+                    <p class="time">12:00</p>
+                    <p>Lunch Time</p>
+                </div>
+                <div>
+                    <p class="time">12:00</p>
+                    <p>Lunch Time</p>
+                </div>
+                <div>
+                    <p class="time">12:00</p>
+                    <p>Lunch Time</p>
+                </div>
+                <div>
+                    <p class="time">12:00</p>
+                    <p>Lunch Time</p>
+                </div>
+                <div>
+                    <p class="time">12:00</p>
+                    <p>Lunch Time</p>
+                </div>
+            </div>
         </div>
+    </div>
+    <div class="add-in-list">
+        <form action="#">
+            <div>
+                <label for="hour">Time:   </label><input type="time" value="00:00" id="hour">
+            </div>
+            <div>
+                <label for="what">What:   </label><input type="text" placeholder="Feed the neighbor's cat" id="what">
+            </div>
+            <div>
+                <input type="submit" class="submit-add">
+            </div>
+            <div class="quit">X</div>
+        </form>
     </div>
 
     <script src="assets/js/script.js"></script>
