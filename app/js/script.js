@@ -39,9 +39,11 @@ function calendar(){
 	for (var i = 0; i < 6; i++) { //loop for the weeks
 		row = tab.insertRow(i);
 		for (var j = 0; j < 7; j++) { //loop for the days 
+			var local_date = new Date(year, month, firstDay);
+				var storage = localStorage.getItem(local_date);
 			cell = 	row.insertCell(j);
 			if(month == today[0] && firstDay == today[1] && year == today[2]){ //test today 
-				cell.setAttribute('class' , 'active');
+				cell.setAttribute('class' , 'active today');
 			}
 			if(i==0 && j+1 < firstMonthDay){ //day of the last month in the beginning of the new month
 					var lastMonth = month-1 == -1 ? 11 : month-1; //for January 
@@ -56,17 +58,18 @@ function calendar(){
 				}
 				var local_date = new Date(year, month, firstDay);
 				var storage = localStorage.getItem(local_date);
-				if(storage != null){
+				if(storage != null && cell.getAttribute('class') == null){//add class if contain note
 					cell.setAttribute('class', 'contains-note')
-					// console.log('hello');
 				}
 				cell.innerHTML = firstDay;
-				firstDay ++;
 
 				if(active==0) {
 					cell.setAttribute('class' , 'non-active');
 				}
+				firstDay ++;
+
 			}
+
 		}
 	tab.appendChild(row);
 
@@ -117,15 +120,9 @@ boutonPrevious.addEventListener('click', function(){
 var click_day,
 	click_date,
 	cell_add 	   = document.querySelectorAll('td'),
-	titleToDo 	   = document.createElement('h2'),
-	noteCreate 	   = document.createElement('div'),
-	dateCreate     = document.createElement('p'),
-	contentCreate  = document.createElement('p'),
-	noteDiv		   = document.querySelector('.note'),
 	add_in_list	   = document.querySelector('.add-in-list'),
 	quit		   = document.querySelector('.quit'),
 	submit		   = document.querySelector('.submit-add');
-	console.log(submit);
 
 
 
@@ -146,47 +143,80 @@ quit.addEventListener('click', function(){
 
 //On submit add in local storage
 submit.addEventListener('click', function(e){
-	var tabStorage = {
-	'hour' : document.querySelector('#hour').value,
-	'text' : document.querySelector('#what').value
-};
-	tabStorage = JSON.stringify(tabStorage);
+	var newStorage = [[document.querySelector('#hour').value , document.querySelector('#what').value]];
 	click_date = new Date(year,month,click_day); //init date for local storage
-	if(JSON.parse(localStorage.getItem(click_date)) == null){
-		localStorage.setItem(click_date, tabStorage); //add in local storage
-		e.preventDefault()
-		window.location.reload();
-	}
-	else{
-		console.log('already one');
-	}
+	var lastStorage = JSON.parse(localStorage.getItem(click_date));
+	newStorage = lastStorage != null ? lastStorage.concat(newStorage) : newStorage; //concat the last storage with the new one 
+	newStorage = JSON.stringify(newStorage);
+	localStorage.setItem(click_date, newStorage); //add in local storage
+	e.preventDefault()
+	window.location.reload();
 });
 
 
 
+var	titleToDo 	   = document.createElement('h2'),
+	noteArea 	   = document.createElement('div'),
+	noteCreate 	   = document.createElement('div'),
+	dateCreate     = document.createElement('p'),
+	contentCreate  = document.createElement('p'),
+	noteDiv		   = document.querySelector('.note');
+
+
 //Display the content 
-for (var i = 0; i < cell_add.length; i++) { //
+for (var i = 0; i < cell_add.length; i++) {
 	cell_add[i].addEventListener('click', function(){
 		click_day   = this.innerHTML;
 		click_date  		 = new Date(year,month, click_day);
 		var local_storage 	 = JSON.parse(localStorage.getItem(click_date));
-
 		noteDiv.innerHTML 	 = ''; //remove last list
 		titleToDo.innerText  = 'What to do today ?'; // title section
 
-	//Create the content
-		dateCreate.innerText = local_storage.hour;
-		contentCreate.innerText = local_storage.text;
-		noteDiv.appendChild(titleToDo);
-		noteCreate.appendChild(dateCreate);
-		noteCreate.appendChild(contentCreate);
-		noteDiv.appendChild(noteCreate);
+		// Create the content
+		if (local_storage != null) {
+			short(local_storage);
+				for(var i = 0; i<local_storage.length; i++) {
+
+					noteCreate 	   = document.createElement('div'),
+					dateCreate     = document.createElement('p'),
+					contentCreate  = document.createElement('p'),
+					dateCreate.innerText = local_storage[i][0];
+					contentCreate.innerText = local_storage[i][1];
+					noteDiv.appendChild(titleToDo);
+					noteCreate.appendChild(dateCreate);
+					noteCreate.appendChild(contentCreate);
+					noteArea.appendChild(noteCreate);
+				}
+		noteDiv.append(noteArea)
+		}
 	});
 }
 
 
 
+//short the localstorage
+function short(tab){
+	for (var i = 0; i < tab.length; i++) {
+		var temp = tab[i];
+		var j = i-1;
+		while( j>=0 && tab[j][0] > temp[0]){
+			tab[j+1] = tab[j];
+			j--;
+		}
+		tab[j+1] =temp 
+
+	};
+}
 
 
+
+
+//Select a day
+for (var i = 0; i < cell_add.length; i++) {
+	cell_add[i].addEventListener('click', function(){
+		document.querySelector('.active').classList.remove("active");
+		this.classList.add('active')
+	});
+}
 
 // localStorage.clear();

@@ -103,6 +103,21 @@ body
 						background $blue
 						color #fefefe
 						box-shadow 0 0 15px $blue
+						
+					.today
+						position relative
+						
+						
+					.today:after
+						content ''
+						position absolute
+						width 40px
+						height 40px
+						border 3px solid $blue 
+						left 50%
+						top 50%
+						transform translate(-50%,-50%)
+						border-radius 100%
 							  	
 				.non-active
 					color #cecece
@@ -175,3 +190,9 @@ body
 			
 ::placeholder
 	color $blue
+	
+.lorene
+	position absolute
+	bottom 5px
+	right 5px
+	font-size 12px

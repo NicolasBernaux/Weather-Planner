@@ -82,6 +82,7 @@
             <div class="quit">X</div>
         </form>
     </div>
+    <a href="https://www.behance.net/lorenekien0885" class="lorene">Designed by Lorène Kieny</a>
 
     <script src="assets/js/script.js"></script>
 </body>
