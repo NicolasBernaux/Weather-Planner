@@ -5,7 +5,8 @@ day     		= today.getDay(),
 date     		= today.getDate(),
 year     		= 1900+today.getYear(),
 month     		= today.getMonth(),
-calendarArea    = document.querySelector('.day');
+calendarArea    = document.querySelector('.day'),
+cell_add;
 
 
 
@@ -76,10 +77,13 @@ function calendar(){
 	}
 
 	calendarArea.appendChild(tab);
+	cell_add = document.querySelectorAll('td');
+	form_display();
+	event_display();
+	active_day();
 }
 
-
-
+create_content(JSON.parse(localStorage.getItem(today))); //display the things to do today
 
 // Nest / previous calendar
 var boutonNext = document.querySelector('.next');
@@ -106,7 +110,6 @@ boutonPrevious.addEventListener('click', function(){
 	var table 	= calendarArea.querySelector('table');
 	table.remove();
 	calendar();
-
 });
 
 
@@ -119,26 +122,26 @@ boutonPrevious.addEventListener('click', function(){
 
 var click_day,
 	click_date,
-	cell_add 	   = document.querySelectorAll('td'),
 	add_in_list	   = document.querySelector('.add-in-list'),
 	quit		   = document.querySelector('.quit'),
 	submit		   = document.querySelector('.submit-add');
 
-
-
  //On double click on a date diplay block the form
-for (var i = 0; i < cell_add.length; i++) {
-	cell_add[i].addEventListener('dblclick', function(){
-		click_day   = this.innerHTML;
-		click_date  = new Date(year,month,click_day);
-		add_in_list.style.display = 'block';
-	});
 
+function form_display(){
+  for (var i = 0; i < cell_add.length; i++) {
+    cell_add[i].addEventListener('dblclick', function(){
+      click_day   = this.innerHTML;
+      click_date  = new Date(year,month,click_day);
+      add_in_list.style.display = 'block';
+    });
+
+  }	
 }	
 
 //close the form
 quit.addEventListener('click', function(){ 
-	add_in_list.style.display = 'none';
+      add_in_list.style.display = 'none';
 });
 
 //On submit add in local storage
@@ -150,48 +153,60 @@ submit.addEventListener('click', function(e){
 	newStorage = JSON.stringify(newStorage);
 	localStorage.setItem(click_date, newStorage); //add in local storage
 	e.preventDefault()
-	window.location.reload();
+	var table 	= calendarArea.querySelector('table');
+	table.remove();
+	add_in_list.style.display = 'none';
+	// window.location.reload();
+	calendar();
 });
 
 
 
 var	titleToDo 	   = document.createElement('h2'),
 	noteArea 	   = document.createElement('div'),
-	noteCreate 	   = document.createElement('div'),
-	dateCreate     = document.createElement('p'),
-	contentCreate  = document.createElement('p'),
 	noteDiv		   = document.querySelector('.note');
 
 
 //Display the content 
-for (var i = 0; i < cell_add.length; i++) {
-	cell_add[i].addEventListener('click', function(){
+function event_display(){
+  for (var i = 0; i < cell_add.length; i++) {
+    cell_add[i].addEventListener('click', function(){
 		click_day   = this.innerHTML;
 		click_date  		 = new Date(year,month, click_day);
-		var local_storage 	 = JSON.parse(localStorage.getItem(click_date));
-		noteDiv.innerHTML 	 = ''; //remove last list
-		titleToDo.innerText  = 'What to do today ?'; // title section
-
-		// Create the content
-		if (local_storage != null) {
-			short(local_storage);
-				for(var i = 0; i<local_storage.length; i++) {
-
-					noteCreate 	   = document.createElement('div'),
-					dateCreate     = document.createElement('p'),
-					contentCreate  = document.createElement('p'),
-					dateCreate.innerText = local_storage[i][0];
-					contentCreate.innerText = local_storage[i][1];
-					noteDiv.appendChild(titleToDo);
-					noteCreate.appendChild(dateCreate);
-					noteCreate.appendChild(contentCreate);
-					noteArea.appendChild(noteCreate);
-				}
-		noteDiv.append(noteArea)
-		}
-	});
+		var local_storage = JSON.parse(localStorage.getItem(click_date));
+	    
+	    create_content(local_storage);
+    });
+  }
 }
 
+function create_content(local_storage){// Create the content
+	var titleToDo         = document.createElement('h2'),
+	noteArea          = document.createElement('div'),
+	noteDiv           = document.querySelector('.note');
+    noteDiv.innerText 	 = ''; //remove last list
+    titleToDo.innerText  = 'What to do today ?'; // title section
+    if (local_storage != null) {
+        short(local_storage);
+        for(var i = 0; i<local_storage.length; i++) {
+            noteCreate 	   = document.createElement('div'),
+            dateCreate     = document.createElement('p'),
+            contentCreate  = document.createElement('p'),
+            dateCreate.innerText = local_storage[i][0];
+            contentCreate.innerText = local_storage[i][1];
+            noteDiv.appendChild(titleToDo);
+            noteCreate.appendChild(dateCreate);
+            noteCreate.appendChild(contentCreate);
+            noteArea.appendChild(noteCreate);
+          }
+    }
+    else {
+		var text  = document.createElement('p');
+		text.innerText = "Nothing plan for this day";
+      	noteArea.appendChild(text);
+    }
+    noteDiv.append(noteArea)
+}
 
 
 //short the localstorage
@@ -212,11 +227,95 @@ function short(tab){
 
 
 //Select a day
-for (var i = 0; i < cell_add.length; i++) {
-	cell_add[i].addEventListener('click', function(){
-		document.querySelector('.active').classList.remove("active");
-		this.classList.add('active')
-	});
+function active_day(){
+  for (var i = 0; i < cell_add.length; i++) {
+    cell_add[i].addEventListener('click', function(){
+      var activeDay = document.querySelector('.active');
+      if(activeDay != undefined){
+	      activeDay.classList.remove("active");
+	  	}
+	      this.classList.add('active')
+
+    });
+  }
 }
 
 // localStorage.clear();
+
+	/*TUTO*/
+
+var close_tuto	= document.querySelector('.close-tuto'),
+	tuto	= document.querySelector('.tuto-div'),
+	tuto_open	= document.querySelector('.tuto');
+
+if (localStorage.length != 0) {
+      tuto.style.display = 'none';
+
+}
+
+close_tuto.addEventListener('click', function(){ 
+      tuto.style.display = 'none';
+});	
+
+tuto_open.addEventListener('click', function(){ 
+      tuto.style.display = 'block';
+});
+
+
+
+
+
+/*  WEATHER  */
+
+var weather = {};
+var lat = false;
+var long = false;
+
+function position(position){
+	lat = position.coords.latitude;
+	long = position.coords.longitude;
+	api();
+}
+
+function api(){
+		var url = !lat ? './weather-api.php' : './weather-api.php?lat='+lat+'&long='+long;
+		console.log(url);
+	if(self.fetch){
+		fetch(url)
+		.then(function(response){
+			return response.json();
+
+		})
+		.then(function(result){
+			weather.result = result;
+			weather_display();
+		});
+	}
+	else {
+	console.log('non supporté');
+	}
+
+console.log(weather.result);
+	
+		
+}
+
+function weather_display(){
+	var city = document.querySelector('.city');
+	var temperature = document.querySelector('.temperature');
+	var img_weather = document.querySelector('.img-weather');
+	var description = weather.result.description;
+	description = description.replace(' ','-');
+	city.innerText = weather.result.city;
+	temperature.innerText = parseInt(weather.result.temperature)+'°C';
+	img_weather.classList.add(description);
+	console.log(description);
+}
+
+localisation()
+
+function localisation(){
+	if(navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(position, api);
+	}
+}

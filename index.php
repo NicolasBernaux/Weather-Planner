@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-    <title>Tittle</title>
+    <title>Planner</title>
     <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
@@ -34,40 +34,27 @@
             </div>
         </div>
         <div class="right-part">
-            <div class="weather"></div>
+            <div class="weather">
+                <div class="text">
+                    <div class="temperature">12°c</div>
+                    <div class="city">Paris</div>
+                </div>
+                <div class="img-weather"></div>
+            </div>
             <div class="note">
-            <h2>What to do today ?</h2>
-                <div>
-                    <p class="time">07:00</p>
-                    <p>Go to school</p>
-                </div>
-                <div>
-                    <p class="time">12:00</p>
-                    <p>Lunch Time</p>
-                </div>
-                <div>
-                    <p class="time">12:00</p>
-                    <p>Lunch Time</p>
-                </div>
-                <div>
-                    <p class="time">12:00</p>
-                    <p>Lunch Time</p>
-                </div>
-                <div>
-                    <p class="time">12:00</p>
-                    <p>Lunch Time</p>
-                </div>
-                <div>
-                    <p class="time">12:00</p>
-                    <p>Lunch Time</p>
-                </div>
-                <div>
-                    <p class="time">12:00</p>
-                    <p>Lunch Time</p>
-                </div>
             </div>
         </div>
     </div>
+    <a href="https://www.behance.net/lorenekien0885" class="lorene" target="blank">Designed by Lorène Kieny</a>
+    <div class="tuto">?</div>
+    <div class="tuto-div">
+    	<div class="tuto-content">
+	    	<h3>How does it work</h3>
+	    	<p>Double click on a date to add an event</p>
+	    	<p>Simple click to explore the calendar</p>
+	    	<a href="#" class="close-tuto">Close</a>
+    	</div>
+    </div>	
     <div class="add-in-list">
         <form action="#">
             <div>
@@ -82,7 +69,6 @@
             <div class="quit">X</div>
         </form>
     </div>
-    <a href="https://www.behance.net/lorenekien0885" class="lorene">Designed by Lorène Kieny</a>
 
     <script src="assets/js/script.js"></script>
 </body>
